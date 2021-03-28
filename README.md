@@ -1,6 +1,6 @@
 # LAR-Chat
 
-Ссылка / Link - lar-chat-5a981.web.app/
+Ссылка / Link - https://lar-chat-5a981.web.app/
 
 RU
 ------
