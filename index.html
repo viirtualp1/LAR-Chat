@@ -12,7 +12,10 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid" id="nav">
             <span class="navbar-brand mb-0 h1">LAR Chat</span>
-            <div id="searchFriend"></div>
+            <form id="searchFriend" style="display: none;">
+                <input type="text" id="usernameFriend" class="form-control me-2" placeholder="Никнейм пользователя">
+                <button class="btn btn-outline-primary" type="button" id="startChat">Поиск</button>
+            </form>
         </div>
     </nav>
     <div class="container-fluid">
@@ -56,6 +59,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
     <!-- here firebase settings script -->
+    <script src="firebase.js"></script>
     <script src="auth.js"></script>
     <script src="chats.js"></script>
     <script src="messages.js"></script>

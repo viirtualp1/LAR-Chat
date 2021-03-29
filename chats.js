@@ -3,32 +3,34 @@ const chatsDiv = document.getElementById('chats');
 const mainDiv = document.getElementById('main');
 
 function rooms() {
-    document.getElementById('searchFriend').innerHTML = `
-        <form class="d-flex" id="searchFriendDiv">
-            <input type="text" id="usernameFriend" class="form-control me-2" placeholder="Никнейм пользователя">
-            <button class="btn btn-outline-primary" type="button" id="startChat">Поиск</button>
-        </form>
-    `;
+    document.getElementById('searchFriend').className = 'd-flex';
+    document.getElementById('searchFriend').style.display = 'block';
 
     document.getElementById('startChat').onclick = () => {
         const username = document.getElementById('usernameFriend').value;
 
-        console.log(myUsername);
+        if (username == myUsername) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ошибка!',
+                text: 'Вы не можете начать беседу с собой!'
+            });
+        } else {
+            mainDiv.innerHTML = `
+                <form id="chat">
+                    <div class="mt-3" style="position: relative;" id="messages"></div>
+                </form>
+        
+                <div class="align-bottom form-control mt-3" id="sendMsgDiv">
+                    <input type="text" id="message" class="form-control mt-2" placeholder="Сообщение">
+        
+                    <button class="btn btn-success mt-2" id="sendMsg" onclick="sendMsgToUser('${username}')">Отправить</button>
+                    <button class="btn btn-danger mt-2" id="backToMenu" onclick="backToMenu()">Меню</button>
+                </div> 
+            `;
     
-        mainDiv.innerHTML = `
-            <form id="chat">
-                <div class="mt-3" style="position: relative;" id="messages"></div>
-            </form>
-    
-            <div class="align-bottom form-control mt-3" id="sendMsgDiv">
-                <input type="text" id="message" class="form-control mt-2" placeholder="Сообщение">
-    
-                <button class="btn btn-success mt-2" id="sendMsg" onclick="sendMsgToUser('${username}')">Отправить</button>
-                <button class="btn btn-danger mt-2" id="backToMenu" onclick="backToMenu()">Меню</button>
-            </div> 
-        `;
-
-        renderMessages(username);
+            renderMessages(username);
+        }
     }
 
     firebase.database().ref(`rooms/`).on('child_added', (data) => {
@@ -128,7 +130,7 @@ function createRoom() {
         },
     ]).then((result) => {
         if (result.value) {
-            fire({
+            Swal.fire({
                 title: 'Комната создана!',
                 html: `
                     Имя комнаты: ${result.value[0]} <br />
@@ -153,7 +155,6 @@ async function chatRoom(roomName, roomId) {
         input: 'password',
         inputPlaceholder: 'Пароль от комнаты',
         inputAttributes: {
-          maxlength: 10,
           autocapitalize: 'off',
           autocorrect: 'off'
         }
