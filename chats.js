@@ -94,60 +94,6 @@ function renderMessages(username) {
             `;
         } catch { }
     });
-
-    const messagesFromMe2 = firebase.database().ref(`users/${username}/${username}`).orderByChild('date/minutes');
-    messagesFromMe2.on('child_added', (data) => {
-        try {
-            usernameDb = data.val().username;
-            messageDb = data.val().message;
-
-            hour = data.val().date.hour;
-            minutes = data.val().date.minutes;
-            seconds = data.val().date.seconds;
-
-            day = data.val().date.day;
-            month = data.val().date.month;
-            year = data.val().date.year;
-
-            document.getElementById('messages').innerHTML += `
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">${usernameDb}</h5>
-                        <span class="text-muted" style="float: right;">${hour}:${minutes}:${seconds}</span>
-                        <span class="text-muted" style="margin-right: 0.5em; float: right;">${day}.${month}.${year}</span>
-                        <p class="card-text">${messageDb}</p>
-                    </div>
-                </div>
-            `;
-        } catch { }
-    });
-
-    const messagesToMe2 = firebase.database().ref(`users/${myUsername}/${myUsername}`).orderByChild('date/minutes');
-    messagesToMe2.on('child_added', (data) => {
-        try {
-            usernameDb = data.val().username;
-            messageDb = data.val().message;
-
-            hour = data.val().date.hour;
-            minutes = data.val().date.minutes;
-            seconds = data.val().date.seconds;
-
-            day = data.val().date.day;
-            month = data.val().date.month;
-            year = data.val().date.year;
-
-            document.getElementById('messages').innerHTML += `
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">${usernameDb}</h5>
-                        <span class="text-muted" style="float: right;">${hour}:${minutes}:${seconds}</span>
-                        <span class="text-muted" style="margin-right: 0.5em; float: right;">${day}.${month}.${year}</span>
-                        <p class="card-text">${messageDb}</p>
-                    </div>
-                </div>
-            `;
-        } catch { }
-    });
 }
 
 function backToMenu() {

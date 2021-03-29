@@ -36,6 +36,8 @@ function signUp() {
         const errorMessage = error.message;
 
         console.log(errorCode, errorMessage);
+
+        alert('Неправильный Email или Пароль');
     });
 }
 
@@ -45,6 +47,8 @@ function signIn() {
 
     firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
         const errorMessage = error.message;
+
+        console.log(errorCode, errorMessage);
 
         alert('Неправильный Email или Пароль');
     });
