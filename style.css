@@ -1,0 +1,57 @@
+#signInForm {
+    width: 25em;
+    margin: auto;
+    margin-top: 1em;
+}
+
+#chats {
+    width: 25em;
+    margin: auto;
+}
+
+.goChatBtn {
+    width: 22em;
+    border-radius: 0;
+}
+
+.btnMenu {
+    width: 22em;
+    margin: auto;
+    display: block;
+}
+
+#chat, #sendMsgDiv {
+    width: 25em;
+    margin: auto;
+}
+
+#startChat {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#usernameFriend {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#messages {
+    height: 500px;
+    overflow-y: auto;
+}
+
+@media screen and (max-width: 500px) {
+    #signInForm {
+        width: 22em;
+    }
+
+    #chats {
+        width: 23em;
+        margin: auto;
+    }
+
+    #chat, #sendMsgDiv {
+        width: 20em;
+        margin: auto;
+    }
+}

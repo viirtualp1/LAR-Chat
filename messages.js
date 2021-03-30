@@ -16,6 +16,8 @@ function sendMsgToChat(roomName) {
             year: date.getFullYear(),
         }
     });
+
+    document.getElementById('message').value = '';
 };
 
 function sendMsgToUser(username) {
@@ -35,5 +37,5 @@ function sendMsgToUser(username) {
         }
     });
 
-    message.value = '';
+    document.getElementById('message').value = '';
 }

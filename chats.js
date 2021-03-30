@@ -15,13 +15,19 @@ function rooms() {
                 title: 'Ошибка!',
                 text: 'Вы не можете начать беседу с собой!'
             });
+        } else if (username == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ошибка!',
+                text: 'Введите никнейм собеседника!',
+            })
         } else {
             mainDiv.innerHTML = `
                 <form id="chat">
                     <div class="mt-3" style="position: relative;" id="messages"></div>
                 </form>
         
-                <div class="align-bottom form-control mt-3" id="sendMsgDiv">
+                <div class="fixed-bottom form-control mt-3" id="sendMsgDiv">
                     <input type="text" id="message" class="form-control mt-2" placeholder="Сообщение">
         
                     <button class="btn btn-success mt-2" id="sendMsg" onclick="sendMsgToUser('${username}')">Отправить</button>
@@ -34,11 +40,19 @@ function rooms() {
     }
 
     firebase.database().ref(`rooms/`).on('child_added', (data) => {
-        document.getElementById('chats').innerHTML += `
-            <button class="btn btn-outline-primary" onclick="chatRoom('${data.val().nameRoom}', '${data.val().idRoom}')">
-                Войти в комнату "${data.val().nameRoom}"
-            </button>
-        `;
+        if (data.val().idRoom != undefined) {
+            document.getElementById('chats').innerHTML += `
+                <button class="btn btn-outline-primary goChatBtn" onclick="chatRoom('${data.val().nameRoom}', '${data.val().idRoom}')">
+                    Войти в комнату "${data.val().nameRoom}"
+                </button>
+            `;
+        } else {
+            document.getElementById('chats').innerHTML += `
+                <button class="btn btn-outline-primary goChatBtn" onclick="chatRoom('${data.val().nameRoom}')">
+                    Войти в комнату "${data.val().nameRoom}"
+                </button>
+            `;
+        }
     });
 }
 
@@ -103,9 +117,9 @@ function backToMenu() {
         <div class="row" id="chatUI">
             <div class="btn-group-vertical" id="chats"></div>
 
-            <div class="btn-group-vertical fixed-bottom" style="padding: 0;">
-                <button class="btn btn-success mt-2" style="border-radius: 0;" onclick="createRoom()">Создать комнату</button>
-                <button class="btn btn-danger" style="border-radius: 0;" onclick="signOut()">Выйти из аккаунта</button>
+            <div class="fixed-bottom" style="padding: 0;">
+                <button class="btn btn-success mt-2 btnMenu" style="border-radius: 0;" onclick="createRoom()">Создать комнату</button>
+                <button class="btn btn-danger btnMenu" style="border-radius: 0;" onclick="signOut()">Выйти из аккаунта</button>
             </div>
         </div>
     `;
@@ -127,9 +141,26 @@ function createRoom() {
         {
             title: 'Пароль комнаты',
             text: 'Введите пароль вашей комнаты',
+            showDenyButton: true,
+            denyButtonText: 'Без пароля',
         },
     ]).then((result) => {
-        if (result.value) {
+        if (result.isDenied) {
+            Swal.fire({
+                title: 'Комната создана!',
+                html: `
+                    Имя комнаты: ${result.value[0]} <br />
+                    Комната без пароля
+                `,
+                confirmButtonText: 'Ок'
+            });
+
+            firebase.database().ref(`rooms/room${result.value[0]}/`).set({ 
+                nameRoom: result.value[0],
+            });
+      
+            chatRoom(result.value[0]);
+        } if (result.value) {
             Swal.fire({
                 title: 'Комната создана!',
                 html: `
@@ -144,23 +175,15 @@ function createRoom() {
                 idRoom: result.value[1],
             });
       
-            chatRoom(result.value[0]);
+            chatRoom(result.value[0], result.value[1]);
         }
     })
 }
 
-async function chatRoom(roomName, roomId) {
-    const { value: password } = await Swal.fire({
-        title: 'Введите пароль от комнаты',
-        input: 'password',
-        inputPlaceholder: 'Пароль от комнаты',
-        inputAttributes: {
-          autocapitalize: 'off',
-          autocorrect: 'off'
-        }
-    });
+async function chatRoom(roomName, roomId = false) {
+    console.log(roomId);
 
-    if (password == roomId) {
+    if (roomId == 'false') {
         mainDiv.innerHTML = `
             <form id="chat">
                 <div class="mt-3" style="position: relative;" id="messages"></div>
@@ -200,5 +223,58 @@ async function chatRoom(roomName, roomId) {
                 `;
             } catch { }
         });
+    } else if (roomId != false) {
+        const { value: password } = await Swal.fire({
+            title: 'Введите пароль от комнаты',
+            input: 'password',
+            showCancelButton: true,
+            inputPlaceholder: 'Пароль от комнаты',
+            inputAttributes: {
+              autocapitalize: 'off',
+              autocorrect: 'off'
+            }
+        });
+
+        if (password == roomId) {
+            mainDiv.innerHTML = `
+                <form id="chat">
+                    <div class="mt-3" style="position: relative;" id="messages"></div>
+                </form>
+
+                <div class="align-bottom form-control mt-3" id="sendMsgDiv">
+                    <input type="text" id="message" class="form-control mt-2" placeholder="Сообщение">
+
+                    <button class="btn btn-success mt-2" id="sendMsg" onclick="sendMsgToChat('${roomName}')">Отправить</button>
+                    <button class="btn btn-danger mt-2" id="backToMenu" onclick="backToMenu()">Меню</button>
+                </div> 
+            `;
+
+            const messages = firebase.database().ref(`rooms/room${roomName}/messages`).orderByChild('date/minutes');
+            messages.on('child_added', (data) => {
+                try {
+                    usernameDb = data.val().username;
+                    messageDb = data.val().message;
+            
+                    hour = data.val().date.hour;
+                    minutes = data.val().date.minutes;
+                    seconds = data.val().date.seconds;
+            
+                    day = data.val().date.day;
+                    month = data.val().date.month;
+                    year = data.val().date.year;
+                
+                    document.getElementById('messages').innerHTML += `
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">${usernameDb}</h5>
+                                <span class="text-muted" style="float: right;">${hour}:${minutes}:${seconds}</span>
+                                <span class="text-muted" style="margin-right: 0.5em; float: right;">${day}.${month}.${year}</span>
+                                <p class="card-text">${messageDb}</p>
+                            </div>
+                        </div>
+                    `;
+                } catch { }
+            });
+        }
     }
 }
