@@ -42,7 +42,7 @@
 
 @media screen and (max-width: 500px) {
     #signInForm {
-        width: 22em;
+        width: 21em;
     }
 
     #chats {
