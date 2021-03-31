@@ -26,8 +26,8 @@ function rooms() {
                 <form id="chat">
                     <div class="mt-3" style="position: relative;" id="messages"></div>
                 </form>
-        
-                <div class="fixed-bottom form-control mt-3" id="sendMsgDiv">
+
+                <div class="form-control mt-3" id="sendMsgDiv">
                     <input type="text" id="message" class="form-control mt-2" placeholder="Сообщение">
         
                     <button class="btn btn-success mt-2" id="sendMsg" onclick="sendMsgToUser('${username}')">Отправить</button>

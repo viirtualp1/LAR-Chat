@@ -112,7 +112,7 @@ function switchFormSignUp() {
 function signOut() {
     document.getElementById('chatUI').style.display = 'none';     
     let signInForm = document.getElementById('signInForm').style.display = 'block';
-    document.getElementById('searchFriend').innerHTML = ``;
+    document.getElementById('searchFriend').style.display = `none`;
     signInForm.innerHTML = `
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
