@@ -72,11 +72,6 @@ function switchForm() {
             <label for="password" class="form-label">Пароль</label>
             <input type="password" class="form-control" id="password">
         </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>
-        </div>
-
         <div class="btn-group">
             <button type="button" class="btn btn-success" onclick="signIn()">Войти</button>
             <button type="button" class="btn btn-primary" onclick="switchFormSignUp()">Нет аккаунта</button>
@@ -97,10 +92,6 @@ function switchFormSignUp() {
         <div class="input-group mb-3">
             <span class="input-group-text">Никнейм</span>
             <input type="text" id="username" class="form-control">
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-success" onclick="signUp()">Зарегистрироваться</button>
