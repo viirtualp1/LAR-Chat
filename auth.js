@@ -107,7 +107,8 @@ function signOut() {
     let signInForm = document.getElementById('signInForm').style.display = 'block';
 
     const searchFriendDiv = document.getElementById('searchFriend');
-    searchFriendDiv.style.display = `none`;
+    searchFriendDiv.className = '';
+    searchFriendDiv.style.display = 'none';
 
     signInForm.innerHTML = `
         <div class="mb-3">
