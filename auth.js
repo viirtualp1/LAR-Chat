@@ -37,7 +37,7 @@ function signUp() {
 
         console.log(errorCode, errorMessage);
 
-        alert('Неправильный Email или Пароль');
+        alert('Email уже используется или пароль слишком короткий');
     });
 }
 
