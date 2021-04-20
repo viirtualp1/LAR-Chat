@@ -102,13 +102,20 @@ function switchFormSignUp() {
 
 function signOut() {
     let chatUI = document.getElementById('chatUI')
+    chatUI.innerHTML = `
+        <div class="btn-group-vertical" id="chats"></div>
+
+        <div class="fixed-bottom" style="padding: 0;">
+            <button class="btn btn-success mt-2 btnMenu" style="border-radius: 0;" onclick="createRoom()">Создать комнату</button>
+            <button class="btn btn-danger btnMenu" style="border-radius: 0;" onclick="signOut()">Выйти из аккаунта</button>
+        </div>
+    `;
     chatUI.style.display = 'none';
 
     let signInForm = document.getElementById('signInForm').style.display = 'block';
 
-    const searchFriendDiv = document.getElementById('searchFriend');
-    searchFriendDiv.className = '';
-    searchFriendDiv.style.display = 'none';
+    document.getElementById('searchFriend').className = '';
+    document.getElementById('searchFriend').style.display = 'none';
 
     signInForm.innerHTML = `
         <div class="mb-3">
