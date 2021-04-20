@@ -46,6 +46,7 @@ function signIn() {
     let password = document.getElementById('password').value;
 
     firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+        const errorCode = error.code;
         const errorMessage = error.message;
 
         console.log(errorCode, errorMessage);
@@ -101,16 +102,10 @@ function switchFormSignUp() {
 }
 
 function signOut() {
-    let chatUI = document.getElementById('chatUI')
-    chatUI.innerHTML = `
-        <div class="btn-group-vertical" id="chats"></div>
-
-        <div class="fixed-bottom" style="padding: 0;">
-            <button class="btn btn-success mt-2 btnMenu" style="border-radius: 0;" onclick="createRoom()">Создать комнату</button>
-            <button class="btn btn-danger btnMenu" style="border-radius: 0;" onclick="signOut()">Выйти из аккаунта</button>
-        </div>
-    `;
+    let chatUI = document.getElementById('chatUI');
     chatUI.style.display = 'none';
+
+    document.getElementById('chats').innerHTML = ``;
 
     let signInForm = document.getElementById('signInForm').style.display = 'block';
 
