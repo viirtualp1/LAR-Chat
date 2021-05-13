@@ -18,14 +18,14 @@ function sendMsgToChat(roomName) {
     });
 
     document.getElementById('message').value = '';
-};
+}
 
-function sendMsgToUser(username) {
+function sendMsgToUser(username, name) {
     const message = document.getElementById('message').value;
     const date = new Date();
 
-    firebase.database().ref(`users/${username}/${myUsername}/${getRandId()}`).set({
-        username: `${myUsername}`,
+    firebase.database().ref(`users/${username}/${name}/${getRandId()}`).set({
+        username: myUsername,
         message: message,
         date: {
             hour: date.getHours(),

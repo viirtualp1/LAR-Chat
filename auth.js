@@ -5,100 +5,36 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById('chatUI').style.display = 'block';
         document.getElementById('signInForm').style.display = 'none';
 
+        name = user.displayName;
+        email = user.email;
+        photoUrl = user.photoURL;
+
         usernameLC = localStorage.getItem('username');
-        
+
         if (usernameLC != null) {
             myUsername = usernameLC;
         }
 
-        rooms();
+        rooms(`${photoUrl}`, `${name}`, `${email}`);
+        chats();
     }
 });
 
-function signUp() {
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
+function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-    let username = document.getElementById('username').value;
-
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-        firebase.database().ref(`users/${username}/`).set({
-            email: email,
-            password: password,
-            username: username,
+    firebase.auth().signInWithPopup(provider).then((result) => {
+        firebase.database().ref(`users/${result.user.displayName}/`).set({
+            email: result.user.email,
+            username: result.user.displayName,
+            photoUrl: result.user.photoURL,
         });
 
-        localStorage.setItem('username', username);
-
-        myUsername = username;
+        localStorage.setItem('username', result.user.displayName);
     }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log(errorCode, errorMessage);
-
-        alert('Email уже используется или пароль слишком короткий');
+        alert(`${error.code} ${error.message}`);
     });
-}
-
-function signIn() {
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
-
-    firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log(errorCode, errorMessage);
-
-        alert('Неправильный Email или Пароль');
-    });
-
-    firebase.database().ref(`users`).on('child_added', (data) => {
-        if (email == data.val().email) {
-            myUsername = data.val().username;
-
-            localStorage.setItem('username', myUsername);
-        }
-    });
-}
-
-function switchForm() {
-    document.getElementById('signInForm').innerHTML = `
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Пароль</label>
-            <input type="password" class="form-control" id="password">
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-success" onclick="signIn()">Войти</button>
-            <button type="button" class="btn btn-primary" onclick="switchFormSignUp()">Нет аккаунта</button>
-        </div>
-    `;
-}
-
-function switchFormSignUp() {
-    document.getElementById('signInForm').innerHTML = `
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Пароль</label>
-            <input type="password" class="form-control" id="password">
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text">Никнейм</span>
-            <input type="text" id="username" class="form-control">
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-success" onclick="signUp()">Зарегистрироваться</button>
-            <button type="button" class="btn btn-primary" onclick="switchForm()">Уже есть аккаунт</button>
-        </div>
-    `;
 }
 
 function signOut() {
@@ -137,3 +73,4 @@ function signOut() {
 
     firebase.auth().signOut();
 }
+

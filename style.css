@@ -4,25 +4,9 @@
     margin-top: 1em;
 }
 
-#chats {
-    width: 25em;
-    margin: auto;
-}
-
 .goChatBtn {
     width: 22em;
     border-radius: 0;
-}
-
-.btnMenu {
-    width: 22em;
-    margin: auto;
-    display: block;
-}
-
-#chat, #sendMsgDiv {
-    width: 25em;
-    margin: auto;
 }
 
 #startChat {
@@ -36,8 +20,19 @@
 }
 
 #messages {
-    height: 500px;
     overflow-y: auto;
+}
+
+#reaction {
+    font-size: 15px;
+}
+
+#signInGoogle {
+    background: none;
+    color: #039be5;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 @media screen and (max-width: 500px) {
