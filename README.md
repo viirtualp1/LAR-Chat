@@ -1,6 +1,7 @@
 # LAR-Chat
 
 Attention! A new version is under development, now something may not work or there may be bugs! 
+------
 Внимание! В разработке находится новая версия, сейчас что-то может не работать или могут быть баги!
 ------
 
