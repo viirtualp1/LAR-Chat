@@ -1,6 +1,6 @@
 # LAR-Chat
 
-Ссылка / Link - https://lar-chat-5a981.web.app/
+Ссылка / Link (Old version, now a new one is being developed / Старая версия, сейчас разрабатывается новая) - https://lar-chat-5a981.web.app/
 
 RU
 ------
