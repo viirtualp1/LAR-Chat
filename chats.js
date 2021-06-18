@@ -7,7 +7,7 @@ function rooms(avatar, myName, myEmail) {
             document.getElementById('chats').innerHTML += `
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-                        <h5 class="card-title"><img alt="icon" style="width: 30px; height: 30px" id="avatar" src="${avatar}"> ${myName}</h5>
+                        <h5 class="card-title"><img alt="icon" style="width: 30px; height: 30px; border-radius: 50%;" id="avatar" src="${avatar}"> ${myName}</h5>
                         
                         <small class="text-muted">${myEmail}</small>
                     </div>
@@ -36,11 +36,11 @@ function rooms(avatar, myName, myEmail) {
 
 function chats() {
     firebase.database().ref('users/').on('child_added', (data) => {
-        if (data.val().username === myUsername) { } else {
+        if (data.val().username === myUsername || data.val().username === undefined) { } else {
             document.getElementById('chats').innerHTML += `
                 <li class="list-group-item d-flex justify-content-between align-items-start" style="cursor: pointer" onclick="chatUser('${data.val().username}', '${myUsername}')">
                     <div class="ms-2 me-auto">
-                        <img src="${data.val().photoUrl}" id="avatarUser${data.val().username}" style="width: 30px; height: 30px; border-radius: 15px;" alt="avatarUser">
+                        <img src="${data.val().photoUrl}" id="avatarUser${data.val().username}" style="width: 30px; height: 30px; border-radius: 50%;" alt="avatarUser">
                         ${data.val().username}
                     </div>
                 </li>
@@ -53,21 +53,6 @@ function chats() {
             }
         } catch {}
     });
-}
-
-function backToMenu() {
-    mainChat.innerHTML = `
-        <div class="row" id="chatUI">
-            <div class="btn-group-vertical" id="chats"></div>
-
-            <div class="fixed-bottom" style="padding: 0;">
-                <button class="btn btn-success mt-2 btnMenu" style="border-radius: 0;" onclick="createRoom()">Создать комнату</button>
-                <button class="btn btn-danger btnMenu" style="border-radius: 0;" onclick="signOut()">Выйти из аккаунта</button>
-            </div>
-        </div>
-    `;
-
-    rooms();
 }
 
 function createRoom() {
@@ -289,7 +274,7 @@ function chatUser(username, myName) {
     mainChat.innerHTML = `
         <li class="list-group-item d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
-                <img src="" id="avatar${username}" style="width: 30px; height: 30px; border-radius: 15px;" alt="avatarUser">
+                <img src="" id="avatar${username}" style="width: 30px; height: 30px; border-radius: 50%;" alt="avatarUser">
                 ${username}
                 <span class="badge secondary rounded-pill" id="isOnlineChat${username}"></span>
             </div>
