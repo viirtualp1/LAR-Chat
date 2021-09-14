@@ -1,11 +1,6 @@
 # LAR-Chat
 
-Attention! A new version is under development, now something may not work or there may be bugs! 
-------
-Внимание! В разработке находится новая версия, сейчас что-то может не работать или могут быть баги!
-------
-
-Ссылка / Link (Old version, now a new one is being developed / Старая версия, сейчас разрабатывается новая) - https://lar-chat-5a981.web.app/
+Ссылка / Link - https://lar-chat-5a981.web.app/
 
 RU
 ------
