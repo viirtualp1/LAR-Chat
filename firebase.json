@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "./chat-work",
+    "public": "./",
     "ignore": [
       "firebase.json",
       "**/.*",

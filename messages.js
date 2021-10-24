@@ -25,7 +25,7 @@ function sendMsgToUser(username, name) {
     const date = new Date();
 
     firebase.database().ref(`users/${username}/${name}/${getRandId()}`).set({
-        username: myUsername,
+        username: username,
         message: message,
         date: {
             hour: date.getHours(),
